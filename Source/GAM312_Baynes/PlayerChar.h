@@ -20,30 +20,71 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+
+	//Functions
 	UFUNCTION()
 	void MoveForward(float Value);
 
 	UFUNCTION()
-	void MoveRight(float Value);
+		void MoveRight(float Value);
 
 	UFUNCTION()
-	void StartJump();
+		void StartJump();
 
 	UFUNCTION()
-	void StopJump();
+		void StopJump();
 
 	UFUNCTION()
-	void FindObject();
+		void FindObject();
 
+	UFUNCTION(BlueprintCallable)
+		void SetHealth(float amount);
+
+	UFUNCTION(BlueprintCallable)
+		void SetHunger(float amount);
+
+	UFUNCTION(BlueprintCallable)
+		void SetStamina(float amount);
+
+	UFUNCTION()
+		void DecreaseStats();
+
+
+	//Properties
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* PlayerCamComp;
+
+	//Establishes PlayerChar with these variables that can be edited in blueprints
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Stats")
+		float Health = 100.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Stats")
+		float Hunger = 100.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Stats")
+		float Stamina = 100.0f;
+
+	UPROPERTY(EditAnywhere, Category = "Resources")
+		int Wood;
+
+	UPROPERTY(EditAnywhere, Category = "Resources")
+		int Stone;
+
+	UPROPERTY(EditAnywhere, Category = "Resources")
+		int Berry;
+
+	UPROPERTY(EditAnywhere, Category = "Resources")
+		TArray<FString> ResourcesNameArray;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Resources")
+		TArray<int> ResourcesArray;
 
 
 
