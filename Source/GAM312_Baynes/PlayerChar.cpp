@@ -175,7 +175,7 @@ void APlayerChar::GiveResource(float amount, FString resourceType)
 	}
 	if (resourceType == "Stone")
 	{
-		ResourcesArray[1] = ResourcesArray[2] + amount;
+		ResourcesArray[1] = ResourcesArray[1] + amount;
 	}
 	if (resourceType == "Berry")
 	{
