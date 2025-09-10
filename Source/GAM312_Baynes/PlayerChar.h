@@ -5,6 +5,9 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Camera/CameraComponent.h"
+#include "Resource_M.h"
+#include "Kismet/GameplayStatics.h"
+#include "BuildingPart.h"
 #include "PlayerChar.generated.h"
 
 UCLASS()
@@ -40,7 +43,7 @@ public:
 
 	UFUNCTION()
 		void StopJump();
-
+			
 	UFUNCTION()
 		void FindObject();
 
@@ -55,6 +58,19 @@ public:
 
 	UFUNCTION()
 		void DecreaseStats();
+
+	UFUNCTION()
+		void GiveResource(float amount, FString resourceType);
+
+	UFUNCTION(BlueprintCallable)
+		void UpdateResources(float woodAmount, float stoneAmount, FString buildingObject);
+
+	UFUNCTION(BlueprintCallable)
+		void spawnBuilding(int buildingID, bool& isSuccess);
+
+	UFUNCTION()
+		void rotateBuilding();
+
 
 
 	//Properties
@@ -86,6 +102,19 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Resources")
 		TArray<int> ResourcesArray;
 
+	UPROPERTY(EditAnywhere, Category = "HitMarker")
+		UMaterialInterface* hitDecal;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Building Resources")
+		TArray<int> BuildingArray;
+
+	UPROPERTY()
+		bool isBuilding;
+
+	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite)
+		TSubclassOf<ABuildingPart> BuildPartClass;
+
+	UPROPERTY()
+		ABuildingPart* spawnedPart;
 
 };

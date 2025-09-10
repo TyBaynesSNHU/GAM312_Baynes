@@ -4,18 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Components/TextRenderComponent.h"
-#include "Components/StaticMeshComponent.h"
-#include "Resource_M.generated.h"
+#include "Components/ArrowComponent.h"
+#include "BuildingPart.generated.h"
 
 UCLASS()
-class GAM312_BAYNES_API AResource_M : public AActor
+class GAM312_BAYNES_API ABuildingPart : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AResource_M();
+	ABuildingPart();
 
 protected:
 	// Called when the game starts or when spawned
@@ -25,22 +24,10 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere)
-		FString resourceName = "Wood";
-
-	UPROPERTY(EditAnywhere)
-		int resourceAmount = 5;
-
-	UPROPERTY(VisibleAnywhere)
-		int totalResource = 100;
-
-	UPROPERTY()
-		FText tempText;
-
-	UPROPERTY(EditAnywhere)
-		UTextRenderComponent* ResourceNameTxt;
-
+	//Properties
 	UPROPERTY(EditAnywhere)
 		UStaticMeshComponent* Mesh;
 
+	UPROPERTY(EditAnywhere)
+		UArrowComponent* PivotArrow;
 };
