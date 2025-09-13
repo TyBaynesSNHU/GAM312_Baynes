@@ -100,13 +100,13 @@ void APlayerChar::StopJump()
 //Health decreases when the player takes damage from various sources (e.g., enemies, environmental hazards, etc.)
 void APlayerChar::SetHealth(float amount)
 {
-	if (Health + amount < 100.0f)
+	if (Health + amount <= 100.0f)
 	{
 		Health = Health + amount;
 	}
-	else if (Health + amount <= 0.0f)
+	else if (Health + amount <= 100.0f)
 	{
-		Health = 0.0f;
+		Health = 100.0f;
 		//Handle player death here (e.g., respawn, game over screen, etc.)
 	}
 
@@ -120,15 +120,12 @@ void APlayerChar::SetHunger(float amount)
 	{
 		Hunger = Hunger + amount;
 	}
-	else if (Hunger + amount <= 0.0f)
+	else if (Hunger + amount >= 100.0f)
 	{
-		Hunger = 0.0f;
+		Hunger = 100.0f;
 		//Handle player starvation here (e.g., health decrease over time, etc.)
 	}
-	else
-	{
-		Hunger += amount;
-	}
+
 }
 
 //Stamina works inversely to Hunger. It decreases when the player is active and increases when they are idle
@@ -138,15 +135,12 @@ void APlayerChar::SetStamina(float amount)
 	{
 		Stamina = Stamina + amount;
 	}
-	else if (Stamina + amount >= 0.0f)
+	else if (Stamina + amount >= 100.0f)
 	{
 		Stamina = 100.0f;
 		//Maxes out stamina to 100
 	}
-	else
-	{
-		Stamina += amount;
-	}
+
 }
 
 
@@ -279,7 +273,7 @@ void APlayerChar::spawnBuilding(int buildingID, bool& isSuccess)
 {
 	if (!isBuilding)
 	{
-		if (BuildingArray[buildingID] - 1)
+		if (BuildingArray[buildingID] >= 1)
 		{
 			isBuilding = true;
 			FActorSpawnParameters SpawnParams;
