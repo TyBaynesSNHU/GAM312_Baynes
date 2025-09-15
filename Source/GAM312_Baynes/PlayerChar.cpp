@@ -241,16 +241,16 @@ void APlayerChar::FindObject()
 	
 }
 
-
+//Update Resources function. First determines if you have enough resources, then subtracts the required amount based on the variables ResourcesArray location.
 void APlayerChar::UpdateResources(float woodAmount, float stoneAmount, FString buildingObject)
-{
+{//Check if player (woodAmount) has enough wood, then if YES, continue to check if player has enough stone. woodAmount and stoneAmount are player related variables. ResourcesArray is the array for resource req's
 	if (woodAmount <= ResourcesArray[0])
 	{
 		if (stoneAmount <= ResourcesArray[1])
 		{
 			ResourcesArray[0] = ResourcesArray[0] - woodAmount;
 			ResourcesArray[1] = ResourcesArray[1] - stoneAmount;
-
+			//If resources check is fine, and resources are subtracted, it adds 1 to the array's amount
 			if (buildingObject == "Wall")
 			{
 				BuildingArray[0] = BuildingArray[0] + 1;
@@ -269,30 +269,33 @@ void APlayerChar::UpdateResources(float woodAmount, float stoneAmount, FString b
 	}
 }
 
+
+//SpawnBuilding. Spawns the building part... This function is called when the player hits the build button.
 void APlayerChar::spawnBuilding(int buildingID, bool& isSuccess)
 {
 	if (!isBuilding)
 	{
-		if (BuildingArray[buildingID] >= 1)
+		if (BuildingArray[buildingID] >= 1)//If the part's button you click is greater than or equal to 1...
 		{
-			isBuilding = true;
-			FActorSpawnParameters SpawnParams;
+			isBuilding = true;//Set bool to true
+			FActorSpawnParameters SpawnParams;//UE struct that provides info on how an actor is spawned at runtime(Source: https://dev.epicgames.com/documentation/en-us/unreal-engine/API/Runtime/Engine/Engine/FActorSpawnParameters)
 			FVector StartLocation = PlayerCamComp->GetComponentLocation();
-			FVector Direction = PlayerCamComp->GetForwardVector() * 400.0f;
+			FVector Direction = PlayerCamComp->GetForwardVector() * 400.0f;//400 is the distance from the player the trace exists
 			FVector EndLocation = StartLocation + Direction;
 			FRotator myRot(0, 0, 0);
 
-			BuildingArray[buildingID] = BuildingArray[buildingID] - 1;
+			BuildingArray[buildingID] = BuildingArray[buildingID] - 1;//Subtracts 1 from that part's related array stock.
 
-			spawnedPart = GetWorld()->SpawnActor<ABuildingPart>(BuildPartClass, EndLocation, myRot, SpawnParams);
+			spawnedPart = GetWorld()->SpawnActor<ABuildingPart>(BuildPartClass, EndLocation, myRot, SpawnParams);//Spawns the part based on the variables set above, like trace distance, in relation to player's GetWorld() function.
 
-			isSuccess = true;
+			isSuccess = true; //Completes validity check.
 		}
 
-		isSuccess = false;
+		isSuccess = false;//Any other state is failure, thus completing a validity check.
 	}
 }
 
+//Rotates building if player hits the button assigned in UE Action mapping(E)
 void APlayerChar::rotateBuilding()
 {
 	if (isBuilding)
