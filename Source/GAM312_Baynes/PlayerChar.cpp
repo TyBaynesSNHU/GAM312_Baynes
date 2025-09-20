@@ -38,6 +38,12 @@ void APlayerChar::BeginPlay()
 	FTimerHandle StatTimerHandle;
 	GetWorld()->GetTimerManager().SetTimer(StatTimerHandle, this, &APlayerChar::DecreaseStats, 2.0f, true);
 	
+	if (objWidget)
+	{
+		objWidget->UpdatebuildOBJ(0.0f);
+		objWidget->UpdatematOBJ(0.0f);
+	}
+
 }
 
 // Called every frame
@@ -216,6 +222,10 @@ void APlayerChar::FindObject()
 					{
 						GiveResource(resourceValue, HitName);
 
+						matsCollected = matsCollected + resourceValue;
+
+						objWidget->UpdatematOBJ(matsCollected);
+
 						check(GEngine != nullptr);
 						GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Resource Collected"));
 						//Calls GameplayStatics library function with the spawn decal bit. Gets the world location, grabs the hitDecal function called in the header, FVector is setting the size of the decal. HitResult is getting the location with the rortator setting -90 to x so it faces the player. 2.0f is the lifespan.
@@ -238,7 +248,9 @@ void APlayerChar::FindObject()
 	else
 	{
 		isBuilding = false; 
+		objectsBuilt = objectsBuilt + 1;
 
+		objWidget->UpdatebuildOBJ(objectsBuilt);
 	}
 	
 }
